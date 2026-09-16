@@ -9,6 +9,6 @@ function render(){
 $('input').addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(render,120);});keys.forEach(k=>$(k).addEventListener('change',render));
 $('sample').addEventListener('click',()=>{if($('input').value){$('message').textContent='원문이 있습니다. 원문을 지운 뒤 예시를 넣어주세요.';return;}$('input').value='  안녕하세요.   반갑습니다.  \n\n\n같은 줄\n같은 줄\n한글 가 · 영문 A · 가족 👨‍👩‍👧‍👦';render();});
 $('clear').addEventListener('click',()=>{$('input').value='';render();$('input').focus();});
-$('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('output').value);$('message').textContent='정리 결과를 복사했습니다.';}catch{$('output').focus();$('output').select();$('message').textContent='자동 복사를 사용할 수 없어 결과를 선택했습니다. 복사 단축키를 누르세요.';}});
-$('download').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([$('output').value],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='정리한-글.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);});
+$('copy').addEventListener('click',async()=>{clearTimeout(timer);render();try{await navigator.clipboard.writeText($('output').value);$('message').textContent='정리 결과를 복사했습니다.';}catch{$('output').focus();$('output').select();$('message').textContent='자동 복사를 사용할 수 없어 결과를 선택했습니다. 복사 단축키를 누르세요.';}});
+$('download').addEventListener('click',()=>{clearTimeout(timer);render();const url=URL.createObjectURL(new Blob([$('output').value],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='정리한-글.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);});
 render();
