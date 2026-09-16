@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {statistics,clean} from '../dist/core.js';
+test('counts Korean, spaces, line breaks, composed characters and joined emoji',()=>{const s=statistics('가 A\n👨‍👩‍👧‍👦');assert.equal(s.characters,5);assert.equal(s.nonspace,3);assert.equal(s.bytes,31);assert.equal(s.lines,2);assert.equal(s.words,3);assert.equal(statistics('e\u0301').characters,1);assert.equal(statistics('').lines,0);});
+test('normalization and invisible stripping preserve joined emoji',()=>{assert.equal(clean('가\u200b👨‍👩‍👧‍👦',{nfc:true,invisible:true}),'가👨‍👩‍👧‍👦');});
+test('independent cleanup options avoid accidental changes',()=>{assert.equal(clean('  a  \n\n\nb\nb',{trim:true,blank:true,dedupe:true}),'a\n\nb');assert.equal(clean('  a  b\n c',{}),'  a  b\n c');assert.equal(clean('a\t\t b',{spaces:true}),'a b');});
