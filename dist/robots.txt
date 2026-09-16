@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://geulja-studio.netlify.app/sitemap.xml
